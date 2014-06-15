@@ -1,4 +1,9 @@
 # for mac
 .DS_STORE
+
+# for VP
 imuoj.vpp.*
 imuoj.vpp~*
+
+# for IDEA
+.idea/
