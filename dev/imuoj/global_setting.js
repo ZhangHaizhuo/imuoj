@@ -3,6 +3,12 @@
  */
 module.exports = {
     web_port:8888,
+    dirs:{
+        oj_dir:  '/home/friskit/judge_online',      // /home/friskit/judge_online
+        log_dir: '/home/friskit/judge_online/log',  // /home/friskit/judge_online/log
+        data_dir:'/home/friskit/judge_online/data', // /home/friskit/judge_online/data
+        run_dir: '/home/friskit/judge_online/run'
+    },
     database_conf:{
         'host':'localhost',
         'username':'root',
@@ -10,17 +16,32 @@ module.exports = {
         'database':'judge_online'
     },
     judge_setting:{
-        poll_time:1000,         //Polling time for Judge Server. (ms)
-        client_concurrency:2    //Concurrency of Judge Client. Depend on CPUs
+        poll_time:1000,                 //Polling time for Judge Server. (ms)
+        client_concurrency:2,           //Concurrency of Judge Client. Depend on CPUs
+        quota_wall_clock:10*1000,       //max wall clock (ms)
+        quota_disk_space:10*1024*1024   //max disk space (b)
     },
-    program_language_type:{
-        'C':    {id:0, name:'C'},
-        'CPP':  {id:1, name:'C++'},
-        'PY':   {id:2, name:'Python'}
-    },
+    program_language_type:[
+        {
+            name:'C',
+            compile_str:'gcc Main.c -o Main -Wall -lm --static -std=c99',
+            extension:'.c'
+        },
+        {
+            name:'C++',
+            compile_str:'g++ Main.cc -o Main -Wall -lm --static -std=c++0x',
+            extension:'.cc'
+        },
+        {
+            name:'Java',
+            compile_str:'javac -J-Xms32m -J-Xms256m Main.java',
+            extension:'.java'
+        }
+    ],
     show_language_type:[
-        {name:'English',native_name:'English'},
-        {name:'Chinese',native_name:'汉语'}
+        {name:'English',language_code:'en_us',native_name:'English'},
+        {name:'Simplified Chinese',language_code:'zh_cn',native_name:'简体中文'},
+        {name:'Traditional Chinese', language_code:'zh_tw', native_name:'繁体中文'}
     ],
     run_states:{
         'PD':{id:0, state_description:{en_us:'Pending'}},
@@ -41,7 +62,8 @@ module.exports = {
         'R5':{id:15,state_description:{en_us:'Reserved result type 5'}},
         'CJ':{id:16,state_description:{en_us:'Compiling and Judging'}},
         'WA':{id:17,state_description:{en_us:'Wrong Answer'}},
-        'AC':{id:18,state_description:{en_us:'Accept'}}
+        'AC':{id:18,state_description:{en_us:'Accept'}},
+        'CE':{id:10,state_description:{en_us:'Compile Error'}}
         //S_RESULT_PD        =  0,    /*!< Pending */
         //S_RESULT_OK        =  1,    /*!< Okay */
         //S_RESULT_RF        =  2,    /*!< Restricted Function */

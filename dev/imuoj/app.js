@@ -1,7 +1,6 @@
 var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
-var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var async = require('async');
@@ -12,9 +11,14 @@ var users = require('./routes/users');
 //global setting
 var gs = require('./global_setting');
 
-//judgeServer
+//logger helper
+var log4js = require('./logger_helper').log4js;
+var web_logger = log4js.getLogger('web');
+
+//judge server
 var judgeServer = require('./judge_server');
 
+//init web
 var app = express();
 
 // view engine setup
@@ -22,7 +26,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(favicon());
-app.use(logger('dev'));
+//app.use(logger('dev'));
+app.use(log4js.connectLogger(web_logger,{level:log4js.levels.INFO, format:':method :url'}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
@@ -65,8 +70,10 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 app.listen(gs.web_port);
+web_logger.info('Web server has started!');
 
 //开启judgeServer
 judgeServer.run();
+
 
 
