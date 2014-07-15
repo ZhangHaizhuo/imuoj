@@ -15,6 +15,8 @@ CREATE TABLE IF NOT EXISTS `imuoj_problem`(
     `output_desc` VARCHAR(1024) NOT NULL DEFAULT '' COMMENT '输出描述',
     `input_sample` VARCHAR(1024) NOT NULL DEFAULT '' COMMENT '输入样例',
     `output_sample` VARCHAR(1024) NOT NULL DEFAULT '' COMMENT '输出样例',
+    `quota_time` INTEGER(10) NOT NULL DEFAULT 10000 COMMENT '时间配额',
+    `quota_memory` INTEGER(10) NOT NULL DEFAULT 33554432 COMMENT '内存配额',
     `hint` VARCHAR(1024) NOT NULL DEFAULT '' COMMENT '提示',
     `problem_source` VARCHAR(1024) NOT NULL DEFAULT '' COMMENT '题目来源',
     `ac_source` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'AC推荐代码ID，外键到solution',
